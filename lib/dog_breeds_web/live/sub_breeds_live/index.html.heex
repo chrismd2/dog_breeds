@@ -1,0 +1,44 @@
+<.header>
+  Listing Sub breeds
+  <:actions>
+    <.link patch={~p"/sub_breeds/new"}>
+      <.button>New Sub breeds</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="sub_breeds"
+  rows={@streams.sub_breeds_collection}
+  row_click={fn {_id, sub_breeds} -> JS.navigate(~p"/sub_breeds/#{sub_breeds}") end}
+>
+  <:col :let={{_id, sub_breeds}} label="Name"><%= sub_breeds.name %></:col>
+  <:col :let={{_id, sub_breeds}} label="Parent breed"><%= sub_breeds.parent_breed %></:col>
+  <:col :let={{_id, sub_breeds}} label="Image count"><%= sub_breeds.image_count %></:col>
+  <:col :let={{_id, sub_breeds}} label="Images"><%= sub_breeds.images %></:col>
+  <:action :let={{_id, sub_breeds}}>
+    <div class="sr-only">
+      <.link navigate={~p"/sub_breeds/#{sub_breeds}"}>Show</.link>
+    </div>
+    <.link patch={~p"/sub_breeds/#{sub_breeds}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, sub_breeds}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: sub_breeds.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="sub_breeds-modal" show on_cancel={JS.patch(~p"/sub_breeds")}>
+  <.live_component
+    module={DogBreedsWeb.SubBreedsLive.FormComponent}
+    id={@sub_breeds.id || :new}
+    title={@page_title}
+    action={@live_action}
+    sub_breeds={@sub_breeds}
+    patch={~p"/sub_breeds"}
+  />
+</.modal>

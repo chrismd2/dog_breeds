@@ -29,17 +29,22 @@ defmodule DogBreeds.Breeds.DogClient do
     )
   end
 
+  @doc """
+  Fetch list of image links from API
+  """
   def get_breed_image_links(parent_breed, sub_breed \\ nil) do
-    url = if sub_breed do
+    url = if sub_breed && sub_breed != "" do
       @uri <> "/#{parent_breed}/#{sub_breed}/images"
     else
       @uri <> "/#{parent_breed}/images"
     end
 
-    Finch.build(:get, url)
+    message = Finch.build(:get, url)
     |> Finch.request!(DogBreeds.Finch)
     |> Map.get(:body)
     |> Jason.decode!()
     |> Map.get("message")
+
+    is_list(message) && message || []
   end
 end

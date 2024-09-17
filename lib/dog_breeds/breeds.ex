@@ -38,10 +38,10 @@ defmodule DogBreeds.Breeds do
     |> Enum.map( &
       %{
         name: &1,
-        parent_breed: "",
         image_count: -1,
         images: []
       }
+      |> put_image_data()
     )
 
     sub_breeds = breeds_map
@@ -53,6 +53,7 @@ defmodule DogBreeds.Breeds do
         image_count: -1,
         images: []
       }
+      |> put_image_data()
     )
 
     parent_breeds ++ sub_breeds
@@ -138,5 +139,31 @@ defmodule DogBreeds.Breeds do
   """
   def change_sub_breeds(%SubBreeds{} = sub_breeds, attrs \\ %{}) do
     SubBreeds.changeset(sub_breeds, attrs)
+  end
+
+  @doc """
+  Returns a breed map with updated image data
+  """
+  def put_image_data(%{image_count: image_count} = breed_map) when image_count > -1 do
+    breed_map
+  end
+  def put_image_data(%{
+    name: name,
+    parent_breed: parent_breed,
+  } = breed_map) do
+    list = DogClient.get_breed_image_links(parent_breed, name)
+
+    put_image_data(breed_map, list)
+  end
+  def put_image_data(%{
+    name: name,
+  } = breed_map) do
+    list = DogClient.get_breed_image_links(name)
+    put_image_data(breed_map, list)
+  end
+  def put_image_data(breed_map, list) do
+    breed_map
+    |> Map.put(:image_count, Enum.count(list))
+    |> Map.put(:images, list)
   end
 end

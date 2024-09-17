@@ -25,7 +25,7 @@ defmodule DogBreeds.Breeds.DogClient do
     Enum.reduce(
       breeds_map,
       [],
-      fn {_, sub_breeds}, accumulated_list -> accumulated_list ++ sub_breeds end
+      fn {parent_breed, sub_breeds}, accumulated_list -> accumulated_list ++ Enum.map(sub_breeds, & "#{parent_breed}-#{&1}") end
     )
   end
 

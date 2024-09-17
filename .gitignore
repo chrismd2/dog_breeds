@@ -15,7 +15,7 @@ lib/dog_breeds_web/live/sub_breeds_live/*
 !lib/dog_breeds/
 lib/dog_breeds/*
 !lib/dog_breeds/breeds*
-lib/dog_breeds/breeds.ex
+!lib/dog_breeds/breeds.ex
 lib/dog_breeds/breeds/sub_breeds.ex
 
 lib/dog_breeds.ex

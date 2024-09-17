@@ -6,7 +6,12 @@ defmodule DogBreedsWeb.SubBreedsLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :sub_breeds_collection, Breeds.list_sub_breeds())}
+    {
+      :ok,
+      socket
+      |> stream_configure(:sub_breeds_collection, dom_id: & &1.name)
+      |> stream(:sub_breeds_collection, Breeds.list_sub_breeds())
+    }
   end
 
   @impl true

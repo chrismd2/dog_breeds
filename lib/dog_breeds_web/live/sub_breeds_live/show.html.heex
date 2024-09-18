@@ -7,7 +7,16 @@
   <:item title="Name"><%= @name %></:item>
   <:item title="Parent breed"><%= @parent_breed %></:item>
   <:item title="Image count"><%= @image_count %></:item>
-  <:item title="Images"><%= @images %></:item>
+  <:item title="Image view">
+    <button class="bg-blue" phx-click={JS.push("traverse", value: %{first: @first, offset: -@offset, image_count: @image_count})}>Previous</button>
+    <%= @first %> - <%= @first - 1 + @offset %>
+    <button class="bg-blue" phx-click={JS.push("traverse", value: %{first: @first, offset: @offset, image_count: @image_count})}>Next</button>
+  </:item>
+  <:item title="Images">
+    <%= for image <- Enum.slice(@images, (-1 + @first)..(-1 + @first + @offset - 1)) do %>
+      <img src={image}>
+    <% end %>
+  </:item>
 </.list>
 
 <.back navigate={~p"/sub_breeds"}>Back to sub_breeds</.back>

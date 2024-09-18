@@ -7,6 +7,8 @@ defmodule DogBreedsWeb.SubBreedsLive.Show do
   def mount(%{"breed" => breed} = _params, _session, socket) do
     socket = socket
     |> assign(:name, breed)
+    |> assign(:first, 1)
+    |> assign(:offset, 20)
     {:ok, socket}
   end
 
@@ -25,6 +27,19 @@ defmodule DogBreedsWeb.SubBreedsLive.Show do
       |> assign(:parent_breed, breed_data.parent_breed)
       |> assign(:image_count, breed_data.image_count)
       |> assign(:images, breed_data.images)
+    }
+  end
+  def handle_event("traverse", %{"first" => first, "offset" => offset, "image_count" => image_count} = params, socket) do
+    new_first = first + offset
+    first = if 0 < new_first and new_first <= image_count do
+      new_first
+    else
+      first
+    end
+    {
+      :noreply,
+      socket
+      |> assign(:first, first)
     }
   end
 

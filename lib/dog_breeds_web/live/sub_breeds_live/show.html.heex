@@ -1,0 +1,24 @@
+<.header>
+  Sub breeds <%= @name %>
+  <:subtitle>This is a breed of dog from the Dog API.</:subtitle>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @name %></:item>
+  <:item title="Parent breed"><%= @parent_breed %></:item>
+  <:item title="Image count"><%= @image_count %></:item>
+  <:item title="Images"><%= @images %></:item>
+</.list>
+
+<.back navigate={~p"/sub_breeds"}>Back to sub_breeds</.back>
+
+<.modal :if={@live_action == :edit} id="sub_breeds-modal" show on_cancel={JS.patch(~p"/sub_breeds/#{@sub_breeds}")}>
+  <.live_component
+    module={DogBreedsWeb.SubBreedsLive.FormComponent}
+    id={@name}
+    title={@page_title}
+    action={@live_action}
+    sub_breeds={@sub_breeds}
+    patch={~p"/sub_breeds/#{@sub_breeds}"}
+  />
+</.modal>

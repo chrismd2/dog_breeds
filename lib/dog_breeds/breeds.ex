@@ -41,7 +41,6 @@ defmodule DogBreeds.Breeds do
         image_count: -1,
         images: []
       }
-      |> put_image_data()
     )
 
     sub_breeds = breeds_map
@@ -53,7 +52,6 @@ defmodule DogBreeds.Breeds do
         image_count: -1,
         images: []
       }
-      |> put_image_data()
     )
 
     parent_breeds ++ sub_breeds
@@ -75,6 +73,11 @@ defmodule DogBreeds.Breeds do
 
   """
   def get_sub_breeds!(id), do: Repo.get!(SubBreeds, id)
+
+  def breed_data(%{parent_breed: _parent_breed, name: _name} = breed) do
+    breed
+    |> put_image_data
+  end
 
   @doc """
   Creates a sub_breeds.
@@ -146,6 +149,13 @@ defmodule DogBreeds.Breeds do
   """
   def put_image_data(%{image_count: image_count} = breed_map) when image_count > -1 do
     breed_map
+  end
+  def put_image_data(%{
+    name: name,
+    parent_breed: "",
+  } = breed_map) do
+    list = DogClient.get_breed_image_links(name)
+    put_image_data(breed_map, list)
   end
   def put_image_data(%{
     name: name,

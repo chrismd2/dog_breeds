@@ -11,6 +11,7 @@ lib/dog_breeds_web/live/*
 !lib/dog_breeds_web/live/sub_breeds_live/
 lib/dog_breeds_web/live/sub_breeds_live/*
 !lib/dog_breeds_web/live/sub_breeds_live/index*
+!lib/dog_breeds_web/live/sub_breeds_live/show*
 
 !lib/dog_breeds/
 lib/dog_breeds/*

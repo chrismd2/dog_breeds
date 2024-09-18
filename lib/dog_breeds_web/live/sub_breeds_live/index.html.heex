@@ -11,7 +11,6 @@
 >
   <:col :let={{_id, sub_breeds}} label="Name"><%= sub_breeds.name %></:col>
   <:col :let={{_id, sub_breeds}} label="Parent breed"><%= sub_breeds.parent_breed %></:col>
-  <:col :let={{_id, sub_breeds}} label="Image count"><%= sub_breeds.image_count %></:col>
 </.table>
 
 <.modal :if={@live_action in [:new, :edit]} id="sub_breeds-modal" show on_cancel={JS.patch(~p"/sub_breeds")}>

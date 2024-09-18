@@ -29,7 +29,9 @@ defmodule DogBreedsWeb.SubBreedsLive.Show do
       |> assign(:images, breed_data.images)
     }
   end
-  def handle_event("traverse", %{"first" => first, "offset" => offset, "image_count" => image_count} = params, socket) do
+
+  @impl true
+  def handle_event("traverse", %{"first" => first, "offset" => offset, "image_count" => image_count} = _params, socket) do
     new_first = first + offset
     first = if 0 < new_first and new_first <= image_count do
       new_first

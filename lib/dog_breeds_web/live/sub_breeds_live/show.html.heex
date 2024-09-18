@@ -18,8 +18,16 @@
     <% end %>
   </:item>
 </.list>
-
-<.back navigate={~p"/sub_breeds"}>Back to sub_breeds</.back>
+<footer>
+  <.list>
+    <:item title="Image view">
+      <button class="bg-blue" phx-click={JS.push("traverse", value: %{first: @first, offset: -@offset, image_count: @image_count})}>Previous</button>
+      <%= @first %> - <%= @first - 1 + @offset %>
+      <button class="bg-blue" phx-click={JS.push("traverse", value: %{first: @first, offset: @offset, image_count: @image_count})}>Next</button>
+    </:item>
+  </.list>
+  <.back navigate={~p"/sub_breeds"}>Back to sub_breeds</.back>
+</footer>
 
 <.modal :if={@live_action == :edit} id="sub_breeds-modal" show on_cancel={JS.patch(~p"/sub_breeds/#{@sub_breeds}")}>
   <.live_component

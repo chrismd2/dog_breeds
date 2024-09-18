@@ -30,6 +30,7 @@ defmodule DogBreeds.Breeds do
         |> Map.put(:id, breed.name)
       end
     )
+    |> Enum.sort(fn %{name: name_1}, %{name: name_2} -> name_1 < name_2 end)
   end
 
   defp format_breeds(breeds_map) do

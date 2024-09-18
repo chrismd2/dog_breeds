@@ -1,18 +1,23 @@
 # DogBreeds
 
-To start your Phoenix server:
+## Installation
+Add this project to the local directory (ie `git clone https://github.com/chrismd2/dog_breeds`) and the package can be installed
+by adding `dog_breeds` to your list of dependencies in `mix.exs`:
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+```elixir
+def deps do
+  [
+      {:dog_breeds, "~> 0.1.0", path: "./dog_breeds"},
+  ]
+end
+```
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Add routes to server this project is integrated with to existing routes
+```elixir
+  scope "/sub_breeds", DogBreedsWeb do
+    pipe_through :browser
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+    live "/", SubBreedsLive.Index, :index
+    live "/:breed/", SubBreedsLive.Show, :show
+  end
+```
